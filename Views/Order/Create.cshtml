@@ -1,0 +1,199 @@
+﻿@model InventoryBeginners.Models.OrderHeader
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="card">
+    <div class="card-header bg-danger text-uppercase text-white text-center mb-2 pt-0" style="height:25px;">
+        <h6>Order - Create </h6>
+    </div>
+
+    <form id="SanathForm" asp-action="Create">
+
+        <div class="row col-12">
+
+            <div class="row col-11 ml-2">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group col-2 ">
+                <label asp-for="OrderNumber" class="control-label"></label>
+            </div>
+            <div class="form-group col-3">
+                    <input asp-for="OrderNumber" class="form-control" readonly />
+                <span asp-validation-for="OrderNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-2">
+            </div>
+
+            <div class="form-group col-2">
+                <label asp-for="OrderDate" class="control-label"></label>
+            </div>
+            <div class="form-group col-3">
+                <input asp-for="OrderDate" class="form-control" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group col-2">
+                <label asp-for="CustomerId" class="control-label"></label>
+            </div>
+            <div class="form-group col-3">
+                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerList"></select>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-2">
+            </div>
+
+
+         
+            <div class="form-group col-2">
+            </div>
+
+
+         
+
+            <div class="col-12">     		
+<table id="CodesTable" class="table table-borderless table-sm mb-0 pb-0 border CodesTable">
+     <thead>
+                <tr>
+                        <th>Product Code</th>			
+<th>Description</th>			                                                        
+<th>Quantity</th>
+<th>Price</th>                                
+<th>Total</th>	
+<th style="width:60px;">
+<button id='btnAddDetailRow' type="button" class="btn btn-sm btn-secondary visible" onclick="AddItem(this)">
+Add
+</button>
+</th>
+</tr>
+</thead>
+
+                        <tbody id="CsDiv">
+                                @for (int i = 0; i < Model.OrderDetails.Count; i++)
+                        {
+
+                                <tr>
+                                    <td>
+                                        <input asp-for="@Model.OrderDetails[i].ProductCode" class="form-control" />
+                                    </td>
+
+                                    <td>
+                                        <input asp-for="@Model.OrderDetails[i].Description" class="form-control form-control-plaintext" readonly />
+                                    </td>
+
+                                    <td>
+                                        <input asp-for="@Model.OrderDetails[i].Quantity" class="form-control QtyTotal" />
+                                        <span asp-validation-for="@Model.OrderDetails[i].Quantity" class="text-danger"></span>
+                                    </td>
+                                    
+
+                                    <td>
+                                        <input asp-for="@Model.OrderDetails[i].Price" class="form-control form-control-plaintext PriceTotal"/>
+                                        <span asp-validation-for="@Model.OrderDetails[i].Price" class="text-danger"></span>
+                                    </td>
+
+                                 
+
+                                    <td>
+                                        <input asp-for="@Model.OrderDetails[i].Total" class="form-control form-control-plaintext AmountTotal" readonly />
+                                    </td>
+                                <td style="width:60px;">
+                                    <button id='btnremove-@i' type="button" class="btn btn-sm btn-danger visible" onclick="DeleteItem(this)">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+                    <table class="table table-sm mb-0 pb-0 border">
+                        <thead>
+                            <tr>
+                                <th style="width:13%;">
+                                    Total
+                                </th>
+
+                                <th style="width:13%;">
+                                </th>
+
+                                <th style="width:13%;">
+                                    <input type="text" id="txtQtyTotal" class="form-control form-control-plaintext" value="" />
+                                </th>
+
+                                <th style="width:13%;">
+                                </th>
+
+                                <th style="width:13%;">
+                                </th>
+
+                                <th style="width:13%;">
+                                </th>
+
+                                <th style="width:13%;">
+                                    <input type="text" id="txtAmountTotal" class="form-control form-control-plaintext" value="" />
+                                </th>
+
+                                <th style="width:9%;">
+                                </th>
+                            </tr>
+
+                        </thead>
+                    </table>
+
+            </div>
+                
+
+               
+            </div>
+
+            <div class="form-group btn-group col-1">
+                <div class="form-group invisible">
+                    <select id="mySelect" class="form-control" size="5"
+                            style="visibility: hidden;" asp-items="ViewBag.ProductList">
+                    </select>
+                    <input id="txtValue" class="form-control col-2 invisible" />
+                </div>
+
+         
+               
+
+
+      
+            </div>
+
+
+
+
+
+            <div class="form-group btn-group col-12">
+                <div class="col-1"></div>
+                <div class="col-5">
+                    <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                </div>
+                <div class="col-5">
+                    <a class="btn btn-secondary btn-block" asp-action="index"
+                       asp-route-pg="@TempData.Peek("CurrentPage")">Back</a>
+                </div>
+                <div class="col-1"></div>
+            </div>
+
+        </div>
+
+    </form>
+    </div>
+    
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+    }
